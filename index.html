@@ -6,112 +6,31 @@
     <title>OTF 2026 Interactive Floor Plan</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; margin: 0; padding: 20px; color: #333; display: flex; flex-direction: column; align-items: center; }
         h1 { color: #2a663a; }
+        .container { display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 1400px; }
         
-        .container {
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-            width: 100%;
-            max-width: 1400px;
-        }
+        .map-container { flex: 1.2; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: sticky; top: 20px; height: fit-content; overflow: hidden; position: relative; }
+        .map-image { width: 100%; height: auto; display: block; }
 
-        .map-container {
-            flex: 1.2;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 20px;
-            height: fit-content;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .map-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            cursor: crosshair; /* Changes cursor to a crosshair for easier calibration */
-        }
-
-        /* Circular Booth Styling */
         .booth {
-            position: absolute;
-            background-color: rgba(209, 231, 213, 0.6); 
-            border: 2px solid #2a663a;
-            cursor: pointer;
-            transition: all 0.2s;
-            
-            /* Forces a perfect circle */
-            width: 2.2%; 
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            
-            /* Anchors the circle exactly on its center point */
+            position: absolute; background-color: rgba(209, 231, 213, 0.6); border: 2px solid #2a663a;
+            cursor: pointer; transition: all 0.2s; width: 2.2%; aspect-ratio: 1 / 1; border-radius: 50%;
             transform: translate(-50%, -50%);
         }
-        .booth:hover { 
-            background-color: rgba(140, 195, 153, 0.8); 
-            transform: translate(-50%, -50%) scale(1.2); 
-        }
-        .booth.active { 
-            background-color: rgba(42, 102, 58, 0.9); 
-            border-color: #1a5327;
-            box-shadow: 0 0 10px rgba(42, 102, 58, 0.6);
-            transform: translate(-50%, -50%) scale(1.3);
-        }
+        .booth:hover { background-color: rgba(140, 195, 153, 0.8); transform: translate(-50%, -50%) scale(1.2); }
+        .booth.active { background-color: rgba(42, 102, 58, 0.9); border-color: #1a5327; box-shadow: 0 0 10px rgba(42,102,58,0.6); transform: translate(-50%, -50%) scale(1.3); }
 
-        .table-container {
-            flex: 0.8;
-            max-height: 800px;
-            overflow-y: auto;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .exhibitor-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9em;
-        }
-        .exhibitor-table thead {
-            background-color: #2a663a;
-            color: #ffffff;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .exhibitor-table th, .exhibitor-table td {
-            padding: 14px 18px;
-            border-bottom: 1px solid #e0e0e0;
-            text-align: left;
-        }
-        .exhibitor-table tbody tr {
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+        .table-container { flex: 0.8; max-height: 800px; overflow-y: auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .exhibitor-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+        .exhibitor-table thead { background-color: #2a663a; color: #ffffff; position: sticky; top: 0; z-index: 10; }
+        .exhibitor-table th, .exhibitor-table td { padding: 14px 18px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+        .exhibitor-table tbody tr { cursor: pointer; transition: background-color 0.3s; }
         .exhibitor-table tbody tr:nth-of-type(even) { background-color: #f3f3f3; }
         .exhibitor-table tbody tr:hover { background-color: #d1e7d5; }
-        .exhibitor-table tbody tr.active {
-            background-color: #2a663a;
-            color: #fff;
-        }
+        .exhibitor-table tbody tr.active { background-color: #2a663a; color: #fff; }
         
-        @media (max-width: 900px) {
-            .container { flex-direction: column; }
-            .map-container { position: static; }
-        }
+        @media (max-width: 900px) { .container { flex-direction: column; } .map-container { position: static; } }
     </style>
 </head>
 <body>
@@ -119,118 +38,17 @@
     <h1>OTF 2026 Interactive Show Floor</h1>
 
     <div class="container">
-        <div class="map-container">
+        <!-- Interactive Map Image Overlay -->
+        <div class="map-container" id="map-bounds">
             <img src="OTF-TradeShowMap-2025.png" alt="OTF Floor Plan" class="map-image" />
-            
-            <!-- Adjust top/left to point to the exact center of each booth -->
-            <div class="booth" data-booth="100" style="top: 76.5%; left: 22%;"></div>
-            <div class="booth" data-booth="101" style="top: 76.5%; left: 30%;"></div>
-            <div class="booth" data-booth="102" style="top: 71.5%; left: 22%;"></div>
-            <div class="booth" data-booth="103" style="top: 71.5%; left: 30%;"></div>
-            <div class="booth" data-booth="104" style="top: 66.5%; left: 22%;"></div>
-            <div class="booth" data-booth="105" style="top: 66.5%; left: 30%;"></div>
-            <div class="booth" data-booth="106" style="top: 61.5%; left: 22%;"></div>
-            <div class="booth" data-booth="114" style="top: 46.5%; left: 22%;"></div>
-            
-            <div class="booth" data-booth="200" style="top: 76.5%; left: 33.5%;"></div>
-            <div class="booth" data-booth="201" style="top: 76.5%; left: 41%;"></div>
-            <div class="booth" data-booth="202" style="top: 71.5%; left: 33.5%;"></div>
-            <div class="booth" data-booth="203" style="top: 71.5%; left: 41%;"></div>
-            <div class="booth" data-booth="204" style="top: 66.5%; left: 33.5%;"></div>
-            <div class="booth" data-booth="205" style="top: 66.5%; left: 41%;"></div>
-            <div class="booth" data-booth="208" style="top: 56.5%; left: 33.5%;"></div>
-            <div class="booth" data-booth="209" style="top: 56.5%; left: 41%;"></div>
-            <div class="booth" data-booth="210" style="top: 51.5%; left: 33.5%;"></div>
-            <div class="booth" data-booth="211" style="top: 51.5%; left: 41%;"></div>
-            <div class="booth" data-booth="213" style="top: 46.5%; left: 41%;"></div>
-            <div class="booth" data-booth="215" style="top: 41.5%; left: 41%;"></div>
-            <div class="booth" data-booth="216" style="top: 36.5%; left: 33.5%;"></div>
-            <div class="booth" data-booth="218" style="top: 31.5%; left: 33.5%;"></div>
-            <div class="booth" data-booth="219" style="top: 31.5%; left: 41%;"></div>
-            <div class="booth" data-booth="221" style="top: 26.5%; left: 41%;"></div>
-            <div class="booth" data-booth="222" style="top: 21.5%; left: 33.5%;"></div>
-            <div class="booth" data-booth="223" style="top: 21.5%; left: 41%;"></div>
-            <div class="booth" data-booth="224" style="top: 16.5%; left: 33.5%;"></div>
-            <div class="booth" data-booth="225" style="top: 16.5%; left: 41%;"></div>
-
-            <!-- Placeholders for remaining booths. Use the calibration tool to fix these -->
-            <div class="booth" data-booth="300" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="301" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="302" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="303" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="304" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="305" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="308" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="309" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="310" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="311" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="312" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="313" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="314" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="315" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="318" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="320" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="322" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="324" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="328" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="329" style="top: 10%; left: 10%;"></div>
-
-            <div class="booth" data-booth="400" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="401" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="402" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="403" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="404" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="405" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="408" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="409" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="410" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="412" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="414" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="415" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="419" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="420" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="421" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="423" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="425" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="428" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="429" style="top: 10%; left: 10%;"></div>
-
-            <div class="booth" data-booth="500" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="501" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="502" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="503" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="504" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="505" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="508" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="509" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="510" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="511" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="512" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="514" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="517" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="518" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="519" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="520" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="524" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="525" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="528" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="529" style="top: 10%; left: 10%;"></div>
-
-            <div class="booth" data-booth="601" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="607" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="609" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="612" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="616" style="top: 10%; left: 10%;"></div>
-            <div class="booth" data-booth="628" style="top: 10%; left: 10%;"></div>
+            <!-- Circles will be automatically generated here by JavaScript -->
         </div>
 
+        <!-- Exhibitor Table -->
         <div class="table-container">
             <table class="exhibitor-table">
                 <thead>
-                    <tr>
-                        <th>Exhibitor Name</th>
-                        <th>Booth Number(s)</th>
-                    </tr>
+                    <tr><th>Exhibitor Name</th><th>Booth Number(s)</th></tr>
                 </thead>
                 <tbody id="exhibitor-list">
                     <tr data-booths="218"><td>Acorn Farms</td><td>218</td></tr>
@@ -294,17 +112,67 @@
         </div>
     </div>
 
-    <!-- Map Interaction Logic -->
+    <!-- Automated Grid Generation & Interaction Logic -->
     <script>
-        const booths = document.querySelectorAll('.booth');
+        // GRID CALIBRATION: Edit these 4 numbers if the entire set of circles is slightly off
+        const gridStartX = 21.5; // Controls left/right positioning of the grid
+        const gridStartY = 76.5; // Controls up/down positioning of the grid
+        const stepX = 3.82;      // Spacing between columns
+        const stepY = 5.0;       // Spacing between rows
+
+        // Extracted directly from the X/Y coordinates in your Google Sheet
+        const reservedBooths = [
+            { id: '100', x: 1, y: 1 }, { id: '101', x: 3, y: 1 }, { id: '102', x: 1, y: 2 }, { id: '103', x: 3, y: 2 },
+            { id: '104', x: 1, y: 3 }, { id: '105', x: 3, y: 3 }, { id: '106', x: 1, y: 4 }, { id: '114', x: 1, y: 8 },
+            { id: '200', x: 4, y: 1 }, { id: '201', x: 6, y: 1 }, { id: '202', x: 4, y: 2 }, { id: '203', x: 6, y: 2 },
+            { id: '204', x: 4, y: 3 }, { id: '205', x: 6, y: 3 }, { id: '208', x: 4, y: 5 }, { id: '209', x: 6, y: 5 },
+            { id: '210', x: 4, y: 6 }, { id: '211', x: 6, y: 6 }, { id: '213', x: 6, y: 7 }, { id: '215', x: 6, y: 8 },
+            { id: '216', x: 4, y: 9 }, { id: '218', x: 4, y: 10 }, { id: '219', x: 6, y: 10 }, { id: '221', x: 6, y: 11 },
+            { id: '222', x: 4, y: 12 }, { id: '223', x: 6, y: 12 }, { id: '224', x: 4, y: 13 }, { id: '225', x: 6, y: 13 },
+            { id: '300', x: 7, y: 1 }, { id: '301', x: 9, y: 1 }, { id: '302', x: 7, y: 2 }, { id: '303', x: 9, y: 2 },
+            { id: '304', x: 7, y: 3 }, { id: '305', x: 9, y: 3 }, { id: '308', x: 7, y: 5 }, { id: '309', x: 9, y: 5 },
+            { id: '310', x: 7, y: 6 }, { id: '311', x: 9, y: 6 }, { id: '312', x: 7, y: 7 }, { id: '313', x: 9, y: 7 },
+            { id: '314', x: 7, y: 8 }, { id: '315', x: 9, y: 8 }, { id: '318', x: 7, y: 10 }, { id: '320', x: 7, y: 11 },
+            { id: '322', x: 7, y: 12 }, { id: '324', x: 7, y: 13 }, { id: '328', x: 7, y: 15 }, { id: '329', x: 9, y: 15 },
+            { id: '400', x: 10, y: 1 }, { id: '401', x: 12, y: 1 }, { id: '402', x: 10, y: 2 }, { id: '403', x: 12, y: 2 },
+            { id: '404', x: 10, y: 3 }, { id: '405', x: 12, y: 3 }, { id: '408', x: 10, y: 5 }, { id: '409', x: 12, y: 5 },
+            { id: '410', x: 10, y: 6 }, { id: '411', x: 12, y: 6 }, { id: '412', x: 10, y: 7 }, { id: '414', x: 10, y: 8 },
+            { id: '415', x: 12, y: 8 }, { id: '419', x: 12, y: 10 }, { id: '420', x: 10, y: 11 }, { id: '421', x: 12, y: 11 },
+            { id: '423', x: 12, y: 12 }, { id: '425', x: 12, y: 13 }, { id: '428', x: 10, y: 15 }, { id: '429', x: 12, y: 15 },
+            { id: '500', x: 13, y: 1 }, { id: '501', x: 15, y: 1 }, { id: '502', x: 13, y: 2 }, { id: '503', x: 15, y: 2 },
+            { id: '504', x: 13, y: 3 }, { id: '505', x: 15, y: 3 }, { id: '508', x: 13, y: 5 }, { id: '509', x: 15, y: 5 },
+            { id: '510', x: 13, y: 6 }, { id: '511', x: 15, y: 6 }, { id: '512', x: 13, y: 7 }, { id: '514', x: 13, y: 8 },
+            { id: '517', x: 15, y: 9 }, { id: '518', x: 13, y: 10 }, { id: '519', x: 15, y: 10 }, { id: '520', x: 13, y: 11 },
+            { id: '524', x: 13, y: 13 }, { id: '525', x: 15, y: 13 }, { id: '528', x: 13, y: 15 }, { id: '529', x: 15, y: 15 },
+            { id: '601', x: 18, y: 1 }, { id: '607', x: 18, y: 4 }, { id: '609', x: 18, y: 5 }, { id: '612', x: 16, y: 7 },
+            { id: '616', x: 16, y: 9 }, { id: '628', x: 16, y: 15 }
+        ];
+
+        const mapBounds = document.getElementById('map-bounds');
+
+        // Auto-generate the HTML elements for the booths
+        reservedBooths.forEach(booth => {
+            const leftPos = gridStartX + ((booth.x - 1) * stepX);
+            const topPos = gridStartY - ((booth.y - 1) * stepY);
+            
+            const div = document.createElement('div');
+            div.className = 'booth';
+            div.setAttribute('data-booth', booth.id);
+            div.style.left = `${leftPos}%`;
+            div.style.top = `${topPos}%`;
+            mapBounds.appendChild(div);
+        });
+
+        // Event listeners for highlights
+        const boothElements = document.querySelectorAll('.booth');
         const rows = document.querySelectorAll('#exhibitor-list tr');
 
         function clearActive() {
-            booths.forEach(b => b.classList.remove('active'));
+            boothElements.forEach(b => b.classList.remove('active'));
             rows.forEach(r => r.classList.remove('active'));
         }
 
-        booths.forEach(booth => {
+        boothElements.forEach(booth => {
             booth.addEventListener('click', () => {
                 clearActive();
                 booth.classList.add('active');
@@ -334,34 +202,5 @@
             });
         });
     </script>
-
-    <!-- TEMPORARY MAP CALIBRATION TOOL (Delete when finished) -->
-    <div id="coord-helper" style="position: fixed; bottom: 20px; right: 20px; background: #333; color: #fff; padding: 15px; border-radius: 8px; z-index: 9999; font-family: monospace;">
-        Click anywhere on the map to get coordinates.
-    </div>
-    <script>
-        const mapImg = document.querySelector('.map-image');
-        const helper = document.getElementById('coord-helper');
-        
-        mapImg.addEventListener('click', function(e) {
-            const rect = mapImg.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const leftPercent = ((x / rect.width) * 100).toFixed(2);
-            const topPercent = ((y / rect.height) * 100).toFixed(2);
-            
-            const coordString = `top: ${topPercent}%; left: ${leftPercent}%;`;
-            helper.innerHTML = `<strong>Copy this:</strong><br><br>${coordString}`;
-            
-            // Auto-copy to clipboard
-            navigator.clipboard.writeText(coordString).then(() => {
-                helper.innerHTML += `<br><br><em>(Copied to clipboard!)</em>`;
-            }).catch(err => {
-                console.error("Failed to copy", err);
-            });
-        });
-    </script>
-
 </body>
 </html>
