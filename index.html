@@ -26,7 +26,6 @@
             max-width: 1400px;
         }
 
-        /* Map Styling for Image Overlay */
         .map-container {
             flex: 1.2;
             background: #fff;
@@ -36,7 +35,7 @@
             top: 20px;
             height: fit-content;
             overflow: hidden;
-            position: relative; /* Crucial for overlaying booths */
+            position: relative;
         }
         
         .map-image {
@@ -45,10 +44,9 @@
             display: block;
         }
 
-        /* Clickable Booth Zones */
         .booth {
             position: absolute;
-            background-color: rgba(209, 231, 213, 0.5); /* Light green semi-transparent */
+            background-color: rgba(209, 231, 213, 0.5); 
             border: 2px solid transparent;
             cursor: pointer;
             transition: all 0.2s;
@@ -64,7 +62,6 @@
             box-shadow: 0 0 8px rgba(42, 102, 58, 0.8);
         }
 
-        /* Table Styling */
         .table-container {
             flex: 0.8;
             max-height: 800px;
@@ -100,13 +97,6 @@
             background-color: #2a663a;
             color: #fff;
         }
-        .exhibitor-table tbody tr.active a { color: #fff; }
-        .exhibitor-table a {
-            color: #1a5327;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .exhibitor-table a:hover { text-decoration: underline; }
         
         @media (max-width: 900px) {
             .container { flex-direction: column; }
@@ -121,23 +111,112 @@
     <div class="container">
         <!-- Interactive Map Image Overlay -->
         <div class="map-container">
+            <!-- Ensure this image name exactly matches your GitHub file upload -->
             <img src="OTF-TradeShowMap-2025.png" alt="OTF Floor Plan" class="map-image" />
             
-            <!-- Prototype Booth Mappings (Top/Left percentages position the box over the image) -->
-            <!-- You will duplicate these lines and adjust top/left for the remaining booths -->
-            <div class="booth" data-booth="110" style="top: 53.5%; left: 20%; width: 3.5%; height: 3%;"></div>
-            <div class="booth" data-booth="112" style="top: 48.5%; left: 20%; width: 3.5%; height: 3%;"></div>
-            <div class="booth" data-booth="310" style="top: 53.5%; left: 41%; width: 3.5%; height: 3%;"></div>
-            <div class="booth" data-booth="409" style="top: 58.5%; left: 58%; width: 3.5%; height: 3%;"></div>
-            <div class="booth" data-booth="508" style="top: 58.5%; left: 61.5%; width: 3.5%; height: 3%;"></div>
-            <div class="booth" data-booth="129" style="top: 15%; left: 27%; width: 3.5%; height: 3%;"></div>
-            <div class="booth" data-booth="229" style="top: 15%; left: 37.5%; width: 3.5%; height: 3%;"></div>
-            <div class="booth" data-booth="231" style="top: 10%; left: 37.5%; width: 3.5%; height: 3%;"></div>
-            <div class="booth" data-booth="328" style="top: 15%; left: 41%; width: 3.5%; height: 3%;"></div>
-            <div class="booth" data-booth="330" style="top: 10%; left: 41%; width: 3.5%; height: 3%;"></div>
+            <!-- Adjust top and left percentages to align the boxes over the image -->
+            <div class="booth" data-booth="100" style="top: 75%; left: 20%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="101" style="top: 75%; left: 28%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="102" style="top: 70%; left: 20%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="103" style="top: 70%; left: 28%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="104" style="top: 65%; left: 20%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="105" style="top: 65%; left: 28%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="106" style="top: 60%; left: 20%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="114" style="top: 45%; left: 20%; width: 3.5%; height: 3%;"></div>
+            
+            <div class="booth" data-booth="200" style="top: 75%; left: 32%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="201" style="top: 75%; left: 39%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="202" style="top: 70%; left: 32%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="203" style="top: 70%; left: 39%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="204" style="top: 65%; left: 32%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="205" style="top: 65%; left: 39%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="208" style="top: 55%; left: 32%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="209" style="top: 55%; left: 39%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="210" style="top: 50%; left: 32%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="211" style="top: 50%; left: 39%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="213" style="top: 45%; left: 39%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="215" style="top: 40%; left: 39%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="216" style="top: 35%; left: 32%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="218" style="top: 30%; left: 32%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="219" style="top: 30%; left: 39%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="221" style="top: 25%; left: 39%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="222" style="top: 20%; left: 32%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="223" style="top: 20%; left: 39%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="224" style="top: 15%; left: 32%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="225" style="top: 15%; left: 39%; width: 3.5%; height: 3%;"></div>
+
+            <!-- Example placeholders for remaining booths. Adjust top/left to place them correctly -->
+            <div class="booth" data-booth="300" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="301" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="302" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="303" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="304" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="305" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="308" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="309" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="310" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="311" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="312" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="313" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="314" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="315" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="318" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="320" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="322" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="324" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="328" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="329" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+
+            <div class="booth" data-booth="400" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="401" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="402" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="403" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="404" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="405" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="408" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="409" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="410" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="412" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="414" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="415" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="419" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="420" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="421" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="423" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="425" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="428" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="429" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+
+            <div class="booth" data-booth="500" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="501" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="502" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="503" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="504" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="505" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="508" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="509" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="510" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="511" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="512" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="514" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="517" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="518" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="519" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="520" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="524" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="525" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="528" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="529" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+
+            <div class="booth" data-booth="601" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="607" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="609" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="612" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="616" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
+            <div class="booth" data-booth="628" style="top: 10%; left: 10%; width: 3.5%; height: 3%;"></div>
         </div>
 
-        <!-- Exhibitor Table -->
+        <!-- 2026 Exhibitor Table -->
         <div class="table-container">
             <table class="exhibitor-table">
                 <thead>
@@ -147,33 +226,67 @@
                     </tr>
                 </thead>
                 <tbody id="exhibitor-list">
-                    <tr data-booths="310">
-                        <td><a href="https://www.acornfarms.com/" target="_blank">Acorn Farms</a></td>
-                        <td>310</td>
-                    </tr>
-                    <tr data-booths="110, 112">
-                        <td><a href="https://acuspray.com/" target="_blank">AcuSpray</a></td>
-                        <td>110, 112</td>
-                    </tr>
-                    <tr data-booths="409, 508">
-                        <td><a href="https://www.advancedturf.com/" target="_blank">Advanced Turf Solutions</a></td>
-                        <td>409, 508</td>
-                    </tr>
-                    <tr data-booths="129">
-                        <td><a href="https://aginfotech.net/" target="_blank">Ag Info Tech</a></td>
-                        <td>129</td>
-                    </tr>
-                    <tr data-booths="229, 231, 328, 330">
-                        <td><a href="https://www.agprocompanies.com/ohio/" target="_blank">Ag-Pro Companies</a></td>
-                        <td>229, 231, 328, 330</td>
-                    </tr>
-                    <!-- Add the rest of your original table rows here following the same format -->
+                    <tr data-booths="218"><td>Acorn Farms</td><td>218</td></tr>
+                    <tr data-booths="409, 508"><td>Advanced Turf Solutions</td><td>409, 508</td></tr>
+                    <tr data-booths="320"><td>Albaugh Specialty</td><td>320</td></tr>
+                    <tr data-booths="500"><td>AQUA DOC Lake & Pond Management</td><td>500</td></tr>
+                    <tr data-booths="501"><td>AQUA-AID Solutions</td><td>501</td></tr>
+                    <tr data-booths="428"><td>Azelis A&ES/Red River Specialties LLC</td><td>428</td></tr>
+                    <tr data-booths="309, 311, 313, 315, 408, 410, 412, 414"><td>Baker Vehicle Systems</td><td>309, 311, 313, 315, 408, 410, 412, 414</td></tr>
+                    <tr data-booths="211"><td>BASF</td><td>211</td></tr>
+                    <tr data-booths="223"><td>Beard</td><td>223</td></tr>
+                    <tr data-booths="505"><td>Bestsand/Covia</td><td>505</td></tr>
+                    <tr data-booths="105"><td>BRANDT</td><td>105</td></tr>
+                    <tr data-booths="200, 201, 202, 203, 204, 205, 300, 301, 302, 303, 304, 305, 400, 401, 402, 403, 404, 405"><td>Century Equipment - Jerry Pate</td><td>200-205, 300-305, 400-405</td></tr>
+                    <tr data-booths="509"><td>Columbus Turf</td><td>509</td></tr>
+                    <tr data-booths="524"><td>DryJect</td><td>524</td></tr>
+                    <tr data-booths="219"><td>DuraEdge Products</td><td>219</td></tr>
+                    <tr data-booths="215"><td>Envu</td><td>215</td></tr>
+                    <tr data-booths="510"><td>Field Source</td><td>510</td></tr>
+                    <tr data-booths="415"><td>Finn All Season</td><td>415</td></tr>
+                    <tr data-booths="502"><td>First Turf & Ornamental</td><td>502</td></tr>
+                    <tr data-booths="114"><td>GCSAA</td><td>114</td></tr>
+                    <tr data-booths="420, 421"><td>Golf Preservations Inc</td><td>420, 421</td></tr>
+                    <tr data-booths="318"><td>Harrell's</td><td>318</td></tr>
+                    <tr data-booths="314"><td>Helena</td><td>314</td></tr>
+                    <tr data-booths="209, 308"><td>Heritage Landscape Supply</td><td>209, 308</td></tr>
+                    <tr data-booths="423"><td>JRM, Inc.</td><td>423</td></tr>
+                    <tr data-booths="208"><td>Landmark Seed</td><td>208</td></tr>
+                    <tr data-booths="601"><td>Mavis Consulting</td><td>601</td></tr>
+                    <tr data-booths="607, 609"><td>Medina Turf Farms</td><td>607, 609</td></tr>
+                    <tr data-booths="518"><td>Mid-Ohio Electric Company</td><td>518</td></tr>
+                    <tr data-booths="503"><td>Moody’s of Dayton, Inc.</td><td>503</td></tr>
+                    <tr data-booths="213"><td>nufarm</td><td>213</td></tr>
+                    <tr data-booths="221"><td>Nutrien Ag Solutions</td><td>221</td></tr>
+                    <tr data-booths="612"><td>PBI Gordon Corp</td><td>612</td></tr>
+                    <tr data-booths="419"><td>Pioneer Athletics</td><td>419</td></tr>
+                    <tr data-booths="101"><td>Precision Laser & Instrument, Inc.</td><td>101</td></tr>
+                    <tr data-booths="511"><td>ProPump & Controls</td><td>511</td></tr>
+                    <tr data-booths="225, 322, 324"><td>Revels Turf and Tractor</td><td>225, 322, 324</td></tr>
+                    <tr data-booths="222"><td>Rightline LLC</td><td>222</td></tr>
+                    <tr data-booths="520"><td>SiteOne Landscape</td><td>520</td></tr>
+                    <tr data-booths="504"><td>SkimTurf Management</td><td>504</td></tr>
+                    <tr data-booths="329"><td>Spartan Construction</td><td>329</td></tr>
+                    <tr data-booths="525"><td>Standard Golf Company</td><td>525</td></tr>
+                    <tr data-booths="224"><td>SubAir Systems/TurfBreeze Fans</td><td>224</td></tr>
+                    <tr data-booths="100"><td>Sunbelt</td><td>100</td></tr>
+                    <tr data-booths="328"><td>Synatek</td><td>328</td></tr>
+                    <tr data-booths="216"><td>Syngenta</td><td>216</td></tr>
+                    <tr data-booths="517, 616"><td>Target Specialty Products</td><td>517, 616</td></tr>
+                    <tr data-booths="512, 514"><td>Technical Choice LLC</td><td>512, 514</td></tr>
+                    <tr data-booths="425"><td>TeeJet</td><td>425</td></tr>
+                    <tr data-booths="103"><td>The Lake Doctors</td><td>103</td></tr>
+                    <tr data-booths="210"><td>The Motz Group</td><td>210</td></tr>
+                    <tr data-booths="519"><td>TinyMobileRobots</td><td>519</td></tr>
+                    <tr data-booths="429, 528"><td>TurfTime Equipment LLC</td><td>429, 528</td></tr>
+                    <tr data-booths="310, 312"><td>Turfware</td><td>310, 312</td></tr>
+                    <tr data-booths="529, 628"><td>USGA</td><td>529, 628</td></tr>
+                    <tr data-booths="102, 104, 106"><td>Walker Supply</td><td>102, 104, 106</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Interaction Logic -->
     <script>
         const booths = document.querySelectorAll('.booth');
         const rows = document.querySelectorAll('#exhibitor-list tr');
@@ -183,7 +296,6 @@
             rows.forEach(r => r.classList.remove('active'));
         }
 
-        // Map Click -> Highlights Table Row
         booths.forEach(booth => {
             booth.addEventListener('click', () => {
                 clearActive();
@@ -201,17 +313,14 @@
             });
         });
 
-        // Table Row Click -> Highlights Map Booth
         rows.forEach(row => {
-            row.addEventListener('click', (e) => {
-                if(e.target.tagName.toLowerCase() === 'a') return; 
-
+            row.addEventListener('click', () => {
                 clearActive();
                 row.classList.add('active');
                 
                 const boothIds = row.getAttribute('data-booths').split(', ');
                 boothIds.forEach(id => {
-                    const targetBooth = document.querySelector(`.booth[data-booth="${id}"]`);
+                    const targetBooth = document.querySelector(`.booth[data-booth="${id.trim()}"]`);
                     if (targetBooth) targetBooth.classList.add('active');
                 });
             });
