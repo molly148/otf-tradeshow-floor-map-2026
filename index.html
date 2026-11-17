@@ -44,7 +44,6 @@
 
     <div class="container">
         <div class="map-container" id="map-bounds">
-            <!-- Image source reverted back to 2025 -->
             <img src="OTF-TradeShowMap-2025.png" alt="OTF Floor Plan" class="map-image" />
         </div>
 
@@ -120,6 +119,10 @@
 
         const mapBounds = document.getElementById('map-bounds');
 
+        // Added offset to shift the entire grid up by roughly one booth length (-3.8%)
+        const verticalShift = -3.8;
+        const horizontalShift = 0; // Adjust this if you need to slide them left or right
+
         function getBoothCoordinates(boothId) {
             const num = parseInt(boothId, 10);
             const block = Math.floor(num / 100); 
@@ -153,7 +156,10 @@
             else if (lastTwo <= 31) top = 12.2;
             else if (lastTwo <= 33) top = 8.4;
 
-            return { left, top };
+            return { 
+                left: left + horizontalShift, 
+                top: top + verticalShift 
+            };
         }
 
         reservedBooths.forEach(boothId => {
