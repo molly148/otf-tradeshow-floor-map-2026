@@ -39,9 +39,7 @@
 
     <div class="container">
         <div class="map-container" id="map-bounds">
-            <!-- Ensure this points to the new 2026 map image -->
             <img src="OTF-TradeShowMap-2026.png" alt="OTF Floor Plan" class="map-image" />
-            <!-- Circles are auto-generated here -->
         </div>
 
         <div class="table-container">
@@ -111,61 +109,59 @@
         </div>
     </div>
 
-    <!-- Smart Map Plotting Logic -->
     <script>
-        // MASTER ALIGNMENT CONTROLS: 
-        // If ALL circles are slightly off-center on your screen, change these numbers (e.g., to 0.5 or -1.2)
-        const nudgeLeftRight = 0; 
-        const nudgeUpDown = 0;
-
-        // The complete list of 2026 reserved booths
         const reservedBooths = ['218', '409', '508', '320', '500', '501', '428', '309', '311', '313', '315', '408', '410', '412', '414', '211', '223', '505', '105', '200', '201', '202', '203', '204', '205', '300', '301', '302', '303', '304', '305', '400', '401', '402', '403', '404', '405', '509', '524', '219', '215', '510', '415', '502', '114', '420', '421', '318', '314', '209', '308', '423', '208', '601', '607', '609', '518', '503', '213', '221', '612', '419', '101', '511', '225', '322', '324', '222', '520', '504', '329', '525', '224', '100', '328', '216', '517', '616', '512', '514', '425', '103', '210', '519', '429', '528', '310', '312', '529', '628', '102', '104', '106'];
 
         const mapBounds = document.getElementById('map-bounds');
 
-        // This function calculates exact positioning, skipping the aisles automatically
-        reservedBooths.forEach(boothId => {
+        function getBoothCoordinates(boothId) {
             const num = parseInt(boothId, 10);
-            if (isNaN(num)) return;
-
             const block = Math.floor(num / 100); 
             const isOdd = num % 2 !== 0; 
             const lastTwo = num % 100;
-            const rowIdx = Math.floor(lastTwo / 2); 
 
-            // Calculate Left Position
             let left = 0;
-            switch(block) {
-                case 1: left = isOdd ? 25.1 : 21.7; break;
-                case 2: left = isOdd ? 32.0 : 28.6; break;
-                case 3: left = isOdd ? 42.6 : 39.2; break;
-                case 4: left = isOdd ? 52.9 : 49.5; break;
-                case 5: left = isOdd ? 63.4 : 60.0; break;
-                case 6: left = isOdd ? 75.0 : 71.6; break;
-            }
+            if (block === 1) left = isOdd ? 28.0 : 22.8;
+            if (block === 2) left = isOdd ? 38.4 : 33.2;
+            if (block === 3) left = isOdd ? 48.8 : 43.6;
+            if (block === 4) left = isOdd ? 59.2 : 54.0;
+            if (block === 5) left = isOdd ? 69.6 : 64.4;
+            if (block === 6) left = isOdd ? 80.0 : 74.8;
 
-            // Calculate Top Position (jumping over the aisle gaps)
-            let top = 75.0; 
-            if (rowIdx <= 3) {
-                top = 75.0 - (rowIdx * 3.7);
-            } else if (rowIdx <= 7) {
-                top = 58.2 - ((rowIdx - 4) * 3.7);
-            } else if (rowIdx <= 13) {
-                top = 41.5 - ((rowIdx - 8) * 3.7);
-            } else {
-                top = 17.5 - ((rowIdx - 14) * 3.7);
-            }
+            let top = 0;
+            if (lastTwo <= 1) top = 79.0;
+            else if (lastTwo <= 3) top = 75.2;
+            else if (lastTwo <= 5) top = 71.4;
+            else if (lastTwo <= 7) top = 67.6;
+            else if (lastTwo <= 9) top = 60.5;
+            else if (lastTwo <= 11) top = 56.7;
+            else if (lastTwo <= 13) top = 52.9;
+            else if (lastTwo <= 15) top = 49.1;
+            else if (lastTwo <= 17) top = 42.0;
+            else if (lastTwo <= 19) top = 38.2;
+            else if (lastTwo <= 21) top = 34.4;
+            else if (lastTwo <= 23) top = 30.6;
+            else if (lastTwo <= 25) top = 26.8;
+            else if (lastTwo <= 27) top = 23.0;
+            else if (lastTwo <= 29) top = 16.0;
+            else if (lastTwo <= 31) top = 12.2;
+            else if (lastTwo <= 33) top = 8.4;
 
-            // Generate the circle
+            return { left, top };
+        }
+
+        reservedBooths.forEach(boothId => {
+            const coords = getBoothCoordinates(boothId);
+            if(coords.left === 0) return; 
+
             const div = document.createElement('div');
             div.className = 'booth';
             div.setAttribute('data-booth', boothId);
-            div.style.left = `${left + nudgeLeftRight}%`;
-            div.style.top = `${top + nudgeUpDown}%`;
+            div.style.left = `${coords.left}%`;
+            div.style.top = `${coords.top}%`;
             mapBounds.appendChild(div);
         });
 
-        // Click Logic
         const boothElements = document.querySelectorAll('.booth');
         const rows = document.querySelectorAll('#exhibitor-list tr');
 
@@ -178,12 +174,7 @@
             booth.addEventListener('click', () => {
                 clearActive();
                 booth.classList.add('active');
-                
-                const boothId = booth.getAttribute('data-booth');
-                const targetRow = Array.from(rows).find(row => 
-                    row.getAttribute('data-booths').includes(boothId)
-                );
-
+                const targetRow = Array.from(rows).find(row => row.getAttribute('data-booths').includes(booth.getAttribute('data-booth')));
                 if (targetRow) {
                     targetRow.classList.add('active');
                     targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -195,9 +186,7 @@
             row.addEventListener('click', () => {
                 clearActive();
                 row.classList.add('active');
-                
-                const boothIds = row.getAttribute('data-booths').split(', ');
-                boothIds.forEach(id => {
+                row.getAttribute('data-booths').split(',').forEach(id => {
                     const targetBooth = document.querySelector(`.booth[data-booth="${id.trim()}"]`);
                     if (targetBooth) targetBooth.classList.add('active');
                 });
