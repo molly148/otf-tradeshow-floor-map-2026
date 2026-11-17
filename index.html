@@ -38,13 +38,12 @@
     <h1>OTF 2026 Interactive Show Floor</h1>
 
     <div class="container">
-        <!-- Interactive Map Image Overlay -->
         <div class="map-container" id="map-bounds">
-            <img src="OTF-TradeShowMap-2025.png" alt="OTF Floor Plan" class="map-image" />
-            <!-- Circles will be automatically generated here by JavaScript -->
+            <!-- Ensure this points to the new 2026 map image -->
+            <img src="OTF-TradeShowMap-2026.png" alt="OTF Floor Plan" class="map-image" />
+            <!-- Circles are auto-generated here -->
         </div>
 
-        <!-- Exhibitor Table -->
         <div class="table-container">
             <table class="exhibitor-table">
                 <thead>
@@ -112,58 +111,61 @@
         </div>
     </div>
 
-    <!-- Automated Grid Generation & Interaction Logic -->
+    <!-- Smart Map Plotting Logic -->
     <script>
-        // GRID CALIBRATION: Edit these 4 numbers if the entire set of circles is slightly off
-        const gridStartX = 21.5; // Controls left/right positioning of the grid
-        const gridStartY = 76.5; // Controls up/down positioning of the grid
-        const stepX = 3.82;      // Spacing between columns
-        const stepY = 5.0;       // Spacing between rows
+        // MASTER ALIGNMENT CONTROLS: 
+        // If ALL circles are slightly off-center on your screen, change these numbers (e.g., to 0.5 or -1.2)
+        const nudgeLeftRight = 0; 
+        const nudgeUpDown = 0;
 
-        // Extracted directly from the X/Y coordinates in your Google Sheet
-        const reservedBooths = [
-            { id: '100', x: 1, y: 1 }, { id: '101', x: 3, y: 1 }, { id: '102', x: 1, y: 2 }, { id: '103', x: 3, y: 2 },
-            { id: '104', x: 1, y: 3 }, { id: '105', x: 3, y: 3 }, { id: '106', x: 1, y: 4 }, { id: '114', x: 1, y: 8 },
-            { id: '200', x: 4, y: 1 }, { id: '201', x: 6, y: 1 }, { id: '202', x: 4, y: 2 }, { id: '203', x: 6, y: 2 },
-            { id: '204', x: 4, y: 3 }, { id: '205', x: 6, y: 3 }, { id: '208', x: 4, y: 5 }, { id: '209', x: 6, y: 5 },
-            { id: '210', x: 4, y: 6 }, { id: '211', x: 6, y: 6 }, { id: '213', x: 6, y: 7 }, { id: '215', x: 6, y: 8 },
-            { id: '216', x: 4, y: 9 }, { id: '218', x: 4, y: 10 }, { id: '219', x: 6, y: 10 }, { id: '221', x: 6, y: 11 },
-            { id: '222', x: 4, y: 12 }, { id: '223', x: 6, y: 12 }, { id: '224', x: 4, y: 13 }, { id: '225', x: 6, y: 13 },
-            { id: '300', x: 7, y: 1 }, { id: '301', x: 9, y: 1 }, { id: '302', x: 7, y: 2 }, { id: '303', x: 9, y: 2 },
-            { id: '304', x: 7, y: 3 }, { id: '305', x: 9, y: 3 }, { id: '308', x: 7, y: 5 }, { id: '309', x: 9, y: 5 },
-            { id: '310', x: 7, y: 6 }, { id: '311', x: 9, y: 6 }, { id: '312', x: 7, y: 7 }, { id: '313', x: 9, y: 7 },
-            { id: '314', x: 7, y: 8 }, { id: '315', x: 9, y: 8 }, { id: '318', x: 7, y: 10 }, { id: '320', x: 7, y: 11 },
-            { id: '322', x: 7, y: 12 }, { id: '324', x: 7, y: 13 }, { id: '328', x: 7, y: 15 }, { id: '329', x: 9, y: 15 },
-            { id: '400', x: 10, y: 1 }, { id: '401', x: 12, y: 1 }, { id: '402', x: 10, y: 2 }, { id: '403', x: 12, y: 2 },
-            { id: '404', x: 10, y: 3 }, { id: '405', x: 12, y: 3 }, { id: '408', x: 10, y: 5 }, { id: '409', x: 12, y: 5 },
-            { id: '410', x: 10, y: 6 }, { id: '411', x: 12, y: 6 }, { id: '412', x: 10, y: 7 }, { id: '414', x: 10, y: 8 },
-            { id: '415', x: 12, y: 8 }, { id: '419', x: 12, y: 10 }, { id: '420', x: 10, y: 11 }, { id: '421', x: 12, y: 11 },
-            { id: '423', x: 12, y: 12 }, { id: '425', x: 12, y: 13 }, { id: '428', x: 10, y: 15 }, { id: '429', x: 12, y: 15 },
-            { id: '500', x: 13, y: 1 }, { id: '501', x: 15, y: 1 }, { id: '502', x: 13, y: 2 }, { id: '503', x: 15, y: 2 },
-            { id: '504', x: 13, y: 3 }, { id: '505', x: 15, y: 3 }, { id: '508', x: 13, y: 5 }, { id: '509', x: 15, y: 5 },
-            { id: '510', x: 13, y: 6 }, { id: '511', x: 15, y: 6 }, { id: '512', x: 13, y: 7 }, { id: '514', x: 13, y: 8 },
-            { id: '517', x: 15, y: 9 }, { id: '518', x: 13, y: 10 }, { id: '519', x: 15, y: 10 }, { id: '520', x: 13, y: 11 },
-            { id: '524', x: 13, y: 13 }, { id: '525', x: 15, y: 13 }, { id: '528', x: 13, y: 15 }, { id: '529', x: 15, y: 15 },
-            { id: '601', x: 18, y: 1 }, { id: '607', x: 18, y: 4 }, { id: '609', x: 18, y: 5 }, { id: '612', x: 16, y: 7 },
-            { id: '616', x: 16, y: 9 }, { id: '628', x: 16, y: 15 }
-        ];
+        // The complete list of 2026 reserved booths
+        const reservedBooths = ['218', '409', '508', '320', '500', '501', '428', '309', '311', '313', '315', '408', '410', '412', '414', '211', '223', '505', '105', '200', '201', '202', '203', '204', '205', '300', '301', '302', '303', '304', '305', '400', '401', '402', '403', '404', '405', '509', '524', '219', '215', '510', '415', '502', '114', '420', '421', '318', '314', '209', '308', '423', '208', '601', '607', '609', '518', '503', '213', '221', '612', '419', '101', '511', '225', '322', '324', '222', '520', '504', '329', '525', '224', '100', '328', '216', '517', '616', '512', '514', '425', '103', '210', '519', '429', '528', '310', '312', '529', '628', '102', '104', '106'];
 
         const mapBounds = document.getElementById('map-bounds');
 
-        // Auto-generate the HTML elements for the booths
-        reservedBooths.forEach(booth => {
-            const leftPos = gridStartX + ((booth.x - 1) * stepX);
-            const topPos = gridStartY - ((booth.y - 1) * stepY);
-            
+        // This function calculates exact positioning, skipping the aisles automatically
+        reservedBooths.forEach(boothId => {
+            const num = parseInt(boothId, 10);
+            if (isNaN(num)) return;
+
+            const block = Math.floor(num / 100); 
+            const isOdd = num % 2 !== 0; 
+            const lastTwo = num % 100;
+            const rowIdx = Math.floor(lastTwo / 2); 
+
+            // Calculate Left Position
+            let left = 0;
+            switch(block) {
+                case 1: left = isOdd ? 25.1 : 21.7; break;
+                case 2: left = isOdd ? 32.0 : 28.6; break;
+                case 3: left = isOdd ? 42.6 : 39.2; break;
+                case 4: left = isOdd ? 52.9 : 49.5; break;
+                case 5: left = isOdd ? 63.4 : 60.0; break;
+                case 6: left = isOdd ? 75.0 : 71.6; break;
+            }
+
+            // Calculate Top Position (jumping over the aisle gaps)
+            let top = 75.0; 
+            if (rowIdx <= 3) {
+                top = 75.0 - (rowIdx * 3.7);
+            } else if (rowIdx <= 7) {
+                top = 58.2 - ((rowIdx - 4) * 3.7);
+            } else if (rowIdx <= 13) {
+                top = 41.5 - ((rowIdx - 8) * 3.7);
+            } else {
+                top = 17.5 - ((rowIdx - 14) * 3.7);
+            }
+
+            // Generate the circle
             const div = document.createElement('div');
             div.className = 'booth';
-            div.setAttribute('data-booth', booth.id);
-            div.style.left = `${leftPos}%`;
-            div.style.top = `${topPos}%`;
+            div.setAttribute('data-booth', boothId);
+            div.style.left = `${left + nudgeLeftRight}%`;
+            div.style.top = `${top + nudgeUpDown}%`;
             mapBounds.appendChild(div);
         });
 
-        // Event listeners for highlights
+        // Click Logic
         const boothElements = document.querySelectorAll('.booth');
         const rows = document.querySelectorAll('#exhibitor-list tr');
 
