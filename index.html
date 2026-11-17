@@ -119,9 +119,10 @@
 
         const mapBounds = document.getElementById('map-bounds');
 
-        // Added offset to shift the entire grid up by roughly one booth length (-3.8%)
-        const verticalShift = -3.8;
-        const horizontalShift = 0; // Adjust this if you need to slide them left or right
+        // Added offset to shift the entire grid way higher (-12.0%)
+        // Change this number to tweak exactly how high they go
+        const verticalShift = -12.0;
+        const horizontalShift = 0; 
 
         function getBoothCoordinates(boothId) {
             const num = parseInt(boothId, 10);
