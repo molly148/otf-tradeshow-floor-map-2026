@@ -7,11 +7,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; margin: 0; padding: 20px; color: #333; display: flex; flex-direction: column; align-items: center; }
-        h1 { color: #2a663a; margin-bottom: 20px; text-align: center; }
+        h1 { color: #2a663a; margin-bottom: 10px; text-align: center; }
         
+        .mobile-hint {
+            display: none;
+            font-size: 0.85em;
+            color: #2a663a;
+            background: #e8f3ea;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
         .container { display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 1800px; }
         
-        .map-container { flex: 2.5; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: sticky; top: 20px; height: fit-content; overflow: hidden; position: relative; }
+        .map-scroll-wrapper {
+            flex: 2.5;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            overflow: hidden;
+        }
+
+        .map-container { position: relative; width: 100%; }
         .map-image { width: 100%; height: auto; display: block; }
 
         .booth {
@@ -31,20 +53,37 @@
         .exhibitor-table tbody tr:hover { background-color: #d1e7d5; }
         .exhibitor-table tbody tr.active { background-color: #2a663a; color: #fff; }
         
+        /* Tablet & YM iframe stacking */
         @media (max-width: 1100px) { 
             .container { flex-direction: column; } 
-            .map-container { position: relative; top: 0; width: 100%; }
+            .map-scroll-wrapper { position: relative; top: 0; width: 100%; }
             .table-container { width: 100%; }
+        }
+
+        /* Mobile: Enlarge map and allow left/right swiping */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .mobile-hint { display: inline-block; }
+            .map-scroll-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .map-container {
+                min-width: 800px; /* Keeps map large and readable on phones */
+            }
         }
     </style>
 </head>
 <body>
 
     <h1>OTF 2026 Interactive Show Floor</h1>
+    <div class="mobile-hint">← Swipe map left/right to explore →</div>
 
     <div class="container">
-        <div class="map-container" id="map-bounds">
-            <img src="OTF-TradeShowMap-2025.png" alt="OTF Floor Plan" class="map-image" />
+        <div class="map-scroll-wrapper">
+            <div class="map-container" id="map-bounds">
+                <img src="OTF-TradeShowMap-2025.png" alt="OTF Floor Plan" class="map-image" />
+            </div>
         </div>
 
         <div class="table-container">
@@ -141,7 +180,7 @@
         
         // Specific overrides for 607 and 609 to drop down just a tiny bit
         const slightDropBooths = ['607', '609'];
-        const slightDropAmount = 1.2;
+        const slightDropAmount = .3;
 
         // Specific overrides for booths that need to move UP slightly
         const shiftUpBooths = [];
@@ -186,17 +225,14 @@
 
             let finalTop = top + verticalShift;
             
-            // Adjust specific booths DOWN
             if (shiftDownBooths.includes(boothId)) {
                 finalTop += individualDropAmount;
             }
             
-            // Adjust 607/609 down just a little
             if (slightDropBooths.includes(boothId)) {
                 finalTop += slightDropAmount;
             }
             
-            // Adjust specific booths UP
             if (shiftUpBooths.includes(boothId)) {
                 finalTop -= shiftUpAmount;
             }
@@ -244,10 +280,18 @@
             row.addEventListener('click', () => {
                 clearActive();
                 row.classList.add('active');
+                let firstBooth = null;
                 row.getAttribute('data-booths').split(',').forEach(id => {
                     const targetBooth = document.querySelector(`.booth[data-booth="${id.trim()}"]`);
-                    if (targetBooth) targetBooth.classList.add('active');
+                    if (targetBooth) {
+                        targetBooth.classList.add('active');
+                        if (!firstBooth) firstBooth = targetBooth;
+                    }
                 });
+                // On mobile, automatically pan the map to the selected booth
+                if (firstBooth && window.innerWidth <= 768) {
+                    firstBooth.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
             });
         });
     </script>
