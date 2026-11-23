@@ -119,9 +119,13 @@
 
         const mapBounds = document.getElementById('map-bounds');
 
-        // Feel free to continue tweaking these to slide the entire grid perfectly into place
+        // Master Grid Controls
         const verticalShift = -3.5; 
         const horizontalShift = 0; 
+
+        // Specific overrides for booths that need to drop down slightly
+        const shiftDownBooths = ['216', '218', '519', '517', '616', '328', '329', '428', '429', '528', '529', '628'];
+        const individualDropAmount = 2.5; // Change this if they need to go down more or less
 
         function getBoothCoordinates(boothId) {
             const num = parseInt(boothId, 10);
@@ -129,16 +133,14 @@
             const isOdd = num % 2 !== 0; 
             const lastTwo = num % 100;
 
-            // Updated X-Axis logic: Pairs back-to-back booths closer together, leaves aisles wide
             let left = 0;
-            if (block === 1) left = isOdd ? 29.0 : 22.0; // 100s Block
-            if (block === 2) left = isOdd ? 39.2 : 32.2; // 200s Block
-            if (block === 3) left = isOdd ? 49.4 : 42.4; // 300s Block
-            if (block === 4) left = isOdd ? 59.6 : 52.6; // 400s Block
-            if (block === 5) left = isOdd ? 69.8 : 62.8; // 500s Block
-            if (block === 6) left = isOdd ? 80.0 : 73.0; // 600s Block
+            if (block === 1) left = isOdd ? 29.0 : 22.0; 
+            if (block === 2) left = isOdd ? 39.2 : 32.2; 
+            if (block === 3) left = isOdd ? 49.4 : 42.4; 
+            if (block === 4) left = isOdd ? 59.6 : 52.6; 
+            if (block === 5) left = isOdd ? 69.8 : 62.8; 
+            if (block === 6) left = isOdd ? 80.0 : 73.0; 
 
-            // Y-Axis logic (Bottom to Top)
             let top = 0;
             if (lastTwo <= 1) top = 79.0;
             else if (lastTwo <= 3) top = 75.2;
@@ -158,9 +160,16 @@
             else if (lastTwo <= 31) top = 12.2;
             else if (lastTwo <= 33) top = 8.4;
 
+            let finalTop = top + verticalShift;
+            
+            // Applies the custom drop to only the booths you listed
+            if (shiftDownBooths.includes(boothId)) {
+                finalTop += individualDropAmount;
+            }
+
             return { 
                 left: left + horizontalShift, 
-                top: top + verticalShift 
+                top: finalTop
             };
         }
 
