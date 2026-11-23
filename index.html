@@ -120,24 +120,30 @@
     </div>
 
     <script>
-        // UPDATED ARRAY based on the new list
         const reservedBooths = ['100', '101', '102', '103', '104', '105', '106', '108', '109', '111', '114', '117', '119', '129', '131', '133', '200', '201', '202', '203', '204', '205', '208', '209', '211', '213', '216', '218', '219', '221', '222', '223', '224', '225', '228', '229', '300', '301', '302', '303', '304', '305', '308', '309', '310', '311', '312', '313', '314', '315', '318', '320', '322', '324', '329', '330', '331', '400', '401', '402', '403', '404', '405', '408', '409', '410', '411', '412', '414', '415', '419', '420', '421', '423', '425', '428', '429', '430', '500', '501', '502', '503', '504', '505', '508', '509', '510', '511', '512', '513', '514', '517', '518', '519', '522', '524', '525', '528', '529', '601', '608', '612', '616', '628'];
 
         const mapBounds = document.getElementById('map-bounds');
 
-        // Master Grid Controls (Unchanged)
+        // Master Grid Controls
         const verticalShift = -3.5; 
         const horizontalShift = 0; 
 
-        // Specific overrides for booths that need to drop down notably (Unchanged)
-        const shiftDownBooths = ['216', '218', '519', '517', '616', '328', '329', '428', '429', '528', '529', '628'];
+        // Specific overrides for booths that need to drop down notably
+        const shiftDownBooths = [
+            '117', '119', '129', '131', '133',
+            '216', '218', '228', '229',
+            '328', '329', '330', '331',
+            '428', '429', '430',
+            '517', '519', '528', '529',
+            '616', '628'
+        ];
         const individualDropAmount = 2.5; 
         
-        // Specific overrides for 607 and 609 to drop down just a tiny bit (Unchanged)
+        // Specific overrides for 607 and 609 to drop down just a tiny bit
         const slightDropBooths = ['607', '609'];
-        const slightDropAmount = .3;
+        const slightDropAmount = 1.2;
 
-        // Specific overrides for booths that need to move UP slightly (Unchanged)
+        // Specific overrides for booths that need to move UP slightly
         const shiftUpBooths = [];
         const shiftUpAmount = 2.5; 
 
@@ -157,7 +163,7 @@
 
             let top = 0;
             
-            // BOTTOM BLOCK (Rows 00 to 07): Stretched the gap between dots to 4.2 to add more space
+            // BOTTOM BLOCK (Rows 00 to 07)
             if (lastTwo <= 1) top = 79.1;
             else if (lastTwo <= 3) top = 74.9;
             else if (lastTwo <= 5) top = 70.7;
@@ -190,7 +196,7 @@
                 finalTop += slightDropAmount;
             }
             
-            // Adjust specific booths UP (subtracting percentage moves it up the image)
+            // Adjust specific booths UP
             if (shiftUpBooths.includes(boothId)) {
                 finalTop -= shiftUpAmount;
             }
