@@ -127,8 +127,8 @@
         const shiftDownBooths = ['216', '218', '519', '517', '616', '328', '329', '428', '429', '528', '529', '628'];
         const individualDropAmount = 2.5; 
         
-        // Specific overrides for booths that need to move UP slightly
-        const shiftUpBooths = ['607', '106', '104', '102', '100', '101', '103', '105', '200', '202', '204', '201', '203', '205', '300', '302', '304', '301', '303', '305', '400', '402', '404', '401', '403', '405', '500', '502', '504', '501', '503', '505', '601'];
+        // Specific override for booth 607 (bottom block is now handled automatically below)
+        const shiftUpBooths = ['607'];
         const shiftUpAmount = 2.5; 
 
         function getBoothCoordinates(boothId) {
@@ -146,10 +146,14 @@
             if (block === 6) left = isOdd ? 80.0 : 73.0; 
 
             let top = 0;
-            if (lastTwo <= 1) top = 79.0;
-            else if (lastTwo <= 3) top = 75.2;
-            else if (lastTwo <= 5) top = 71.4;
-            else if (lastTwo <= 7) top = 67.6;
+            
+            // BOTTOM BLOCK (Rows 00 to 07): Stretched the gap between dots to 4.2 to add more space
+            if (lastTwo <= 1) top = 79.1;
+            else if (lastTwo <= 3) top = 74.9;
+            else if (lastTwo <= 5) top = 70.7;
+            else if (lastTwo <= 7) top = 66.5;
+            
+            // REST OF THE GRID
             else if (lastTwo <= 9) top = 60.5;
             else if (lastTwo <= 11) top = 56.7;
             else if (lastTwo <= 13) top = 52.9;
