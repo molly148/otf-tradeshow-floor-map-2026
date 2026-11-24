@@ -22,6 +22,15 @@
 
         .container { display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 1800px; }
         
+        .table-container { flex: 1; max-height: 800px; overflow-y: auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .exhibitor-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+        .exhibitor-table thead { background-color: #2a663a; color: #ffffff; position: sticky; top: 0; z-index: 10; }
+        .exhibitor-table th, .exhibitor-table td { padding: 14px 18px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+        .exhibitor-table tbody tr { cursor: pointer; transition: background-color 0.2s; }
+        .exhibitor-table tbody tr:nth-of-type(even) { background-color: #f3f3f3; }
+        .exhibitor-table tbody tr:hover { background-color: #d1e7d5; }
+        .exhibitor-table tbody tr.active { background-color: #fff176; color: #222; font-weight: 600; }
+
         .map-scroll-wrapper {
             flex: 2.5;
             background: #fff;
@@ -37,27 +46,18 @@
         .map-image { width: 100%; height: auto; display: block; }
 
         .booth {
-            position: absolute; background-color: rgba(209, 231, 213, 0.6); border: 2px solid #2a663a;
+            position: absolute; background-color: rgba(116, 179, 132, 0.55); border: none;
             cursor: pointer; transition: all 0.2s; width: 2.2%; aspect-ratio: 1 / 1; border-radius: 50%;
             transform: translate(-50%, -50%);
         }
-        .booth:hover { background-color: rgba(140, 195, 153, 0.8); transform: translate(-50%, -50%) scale(1.2); }
-        .booth.active { background-color: rgba(42, 102, 58, 0.9); border-color: #1a5327; box-shadow: 0 0 10px rgba(42,102,58,0.6); transform: translate(-50%, -50%) scale(1.3); }
-
-        .table-container { flex: 1; max-height: 800px; overflow-y: auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .exhibitor-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
-        .exhibitor-table thead { background-color: #2a663a; color: #ffffff; position: sticky; top: 0; z-index: 10; }
-        .exhibitor-table th, .exhibitor-table td { padding: 14px 18px; border-bottom: 1px solid #e0e0e0; text-align: left; }
-        .exhibitor-table tbody tr { cursor: pointer; transition: background-color 0.3s; }
-        .exhibitor-table tbody tr:nth-of-type(even) { background-color: #f3f3f3; }
-        .exhibitor-table tbody tr:hover { background-color: #d1e7d5; }
-        .exhibitor-table tbody tr.active { background-color: #2a663a; color: #fff; }
+        .booth:hover { background-color: rgba(116, 179, 132, 0.85); transform: translate(-50%, -50%) scale(1.2); }
+        .booth.active { background-color: #ffd600; box-shadow: 0 0 12px rgba(255, 196, 0, 0.9); transform: translate(-50%, -50%) scale(1.35); z-index: 5; }
         
         /* Tablet & YM iframe stacking */
         @media (max-width: 1100px) { 
             .container { flex-direction: column; } 
+            .table-container { width: 100%; max-height: 400px; }
             .map-scroll-wrapper { position: relative; top: 0; width: 100%; }
-            .table-container { width: 100%; }
         }
 
         /* Mobile: Enlarge map and allow left/right swiping */
@@ -69,7 +69,7 @@
                 -webkit-overflow-scrolling: touch;
             }
             .map-container {
-                min-width: 800px; /* Keeps map large and readable on phones */
+                min-width: 800px;
             }
         }
     </style>
@@ -77,15 +77,9 @@
 <body>
 
     <h1>OTF 2026 Interactive Show Floor</h1>
-    <div class="mobile-hint">← Swipe map left/right to explore →</div>
+    <div class="mobile-hint">← Tap an exhibitor or swipe map left/right →</div>
 
     <div class="container">
-        <div class="map-scroll-wrapper">
-            <div class="map-container" id="map-bounds">
-                <img src="OTF-TradeShowMap-2025.png" alt="OTF Floor Plan" class="map-image" />
-            </div>
-        </div>
-
         <div class="table-container">
             <table class="exhibitor-table">
                 <thead>
@@ -155,6 +149,12 @@
                     <tr data-booths="119, 415"><td>ZymeCo -ThatchZyme</td><td>119, 415</td></tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="map-scroll-wrapper">
+            <div class="map-container" id="map-bounds">
+                <img src="OTF-TradeShowMap-2025.png" alt="OTF Floor Plan" class="map-image" />
+            </div>
         </div>
     </div>
 
@@ -288,9 +288,9 @@
                         if (!firstBooth) firstBooth = targetBooth;
                     }
                 });
-                // On mobile, automatically pan the map to the selected booth
-                if (firstBooth && window.innerWidth <= 768) {
-                    firstBooth.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                // Smoothly scroll and pan directly to the selected booth bubble
+                if (firstBooth) {
+                    firstBooth.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
                 }
             });
         });
